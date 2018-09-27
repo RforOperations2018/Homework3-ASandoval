@@ -59,7 +59,7 @@ getColor <- function(markers1) {
 
 # Add icon
 icons <- awesomeIcons(
-  icon = 'ios-close',
+  icon = 'glyphicon glyphicon-heart',
   markerColor = getColor(markers1)
 )
 
