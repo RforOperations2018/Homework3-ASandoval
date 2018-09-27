@@ -60,37 +60,34 @@ getColor <- function(markers1) {
 
 # Add icon
 icons <- awesomeIcons(
-  icon = 'glyphicon glyphicon-heart',
+  icon = ~as.character(marker.symbol),
   markerColor = getColor(markers1)
 )
 
 # Create Map
 leaflet(data = route) %>%
   addProviderTiles("Stamen.TonerLite") %>%
-  addPolylines(data = route) %>%
-  addPolygons(data = hoods, popup = ~mapname) %>%
+  addPolylines(data = route, color = "#000000", fillOpacity = 1, weight = 10) %>%
+  addPolygons(data = hoods, label = ~mapname, fillOpacity = 0.00, weight = 1.5, highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE)) %>%
   addTiles() %>%
   addAwesomeMarkers(data = markers1, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left")) %>%
-
-  # Add layer controls
+# Basemaps
   addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
-  # Basemaps
   addTiles(options = providerTileOptions(noWrap = TRUE), group = "Default") %>%
   addProviderTiles("Esri.WorldImagery", options = providerTileOptions(noWrap = TRUE), group = "Imagery") %>%
   addProviderTiles("Esri.WorldTopoMap", options = providerTileOptions(noWrap = TRUE), group = "Topo") %>%
   addProviderTiles("Esri.WorldTerrain", options = providerTileOptions(noWrap = TRUE), group = "Terrain") %>%
-
-   # Layers control
+# Layers control
   addLayersControl(
     baseGroups = c("Default", "Imagery", "Topo", "Terrain"),
     options = layersControlOptions(collapsed = FALSE)
-  )
+  ) 
 
 
 ```
 
 ```{r}
-hoods@data
+markers1@data
 
 
 
