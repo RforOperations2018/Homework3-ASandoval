@@ -1,10 +1,10 @@
 
 
 ```{r}
+# Upload packages
 require(rgdal)
 require(leaflet)
 require(leaflet.extras)
-
 require(dplyr)
 require(readxl)
 require(stringr)
@@ -12,19 +12,20 @@ require(stringr)
 ```
 
 ```{r}
+# 2018 Philadelphia Marathon Route
+# Upload polylines, polypoints, and polygons
+# This data was created from http://geojson.io/#map=2/20.0/0.0. 
+# Point and line data was traced from the 2018 Philadelphia marathon website, https://philadelphiamarathon.phila.gov/#/
 route <- readOGR("marathon.geojson")
 plot(route)
 markers <- readOGR("newmarkers.geojson")
 plot(markers)
 hoods <- readOGR("Neighborhoods_Philadelphia.geojson")
 plot(hoods)
-
-test <- readOGR("test2.geojson")
-plot(test)
-
 ```
 
 ```{r}
+# Copy code from Template
 leaflet() %>%
   addProviderTiles(providers$Esri.WorldImagery, options = providerTileOptions(noWrap = TRUE)) %>%
   # Basemaps
@@ -42,7 +43,9 @@ leaflet() %>%
 ```
 
 ```{r}
+# Plot map 
 
+# Change the color of the markers
 getColor <- function(markers) {
   sapply(markers$marker.symbol, function(markers) {
   if(marker.symbol = "Start") {
@@ -68,9 +71,6 @@ leaflet(data = route) %>%
   addProviderTiles("Stamen.TonerLite") %>%
   addPolylines(data = route) %>%
   addPolygons(data = hoods) %>%
- 
-
-
 addTiles() %>%
   addMarkers(data = markers, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left"))
 ```
