@@ -27,16 +27,17 @@ plot(hoods)
 ```{r}
 # Copy code from Template
 leaflet() %>%
-  addProviderTiles(providers$Esri.WorldImagery, options = providerTileOptions(noWrap = TRUE)) %>%
+  addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
   # Basemaps
-  addTiles(group = "OSM (default)") %>%
-  addProviderTiles("Stamen.Toner", group = "Toner") %>%
-  addProviderTiles("Stamen.TonerLite", group = "Toner Lite") %>%
+  addTiles(group = "First") %>%
+  addProviderTiles("Esri.WorldImagery", group = "Life") %>%
+  addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
+  addProviderTiles("Esri.WorldTerrain", group = "Terrain") %>%
  
-  
+
    # Layers control
   addLayersControl(
-    baseGroups = c("OSM (default)", "Toner", "Toner Lite"),
+    baseGroups = c("First", "Life", "Topo", "Terrain"),
     options = layersControlOptions(collapsed = FALSE)
   )
 
@@ -69,7 +70,13 @@ leaflet(data = route) %>%
   addPolylines(data = route) %>%
   addPolygons(data = hoods) %>%
   addTiles() %>%
-  addAwesomeMarkers(data = markers1, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left"))
+  addAwesomeMarkers(data = markers1, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left")) %>%
+ 
+  # Add layer controls
+  addLayersControl(
+  baseGroups = c("First", "Life", "Topo", "Terrain"),
+  options = layersControlOptions(collapsed = FALSE)
+  )
 
 
 ```
