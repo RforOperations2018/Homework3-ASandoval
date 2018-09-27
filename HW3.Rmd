@@ -11,15 +11,15 @@ require(stringr)
 
 ```
 
-```{r}
+```{r, fig.width=1000, fig.height=10}
 # 2018 Philadelphia Marathon Route
 # Upload polylines, polypoints, and polygons
 # This data was created from http://geojson.io/#map=2/20.0/0.0. 
 # Point and line data was traced from the 2018 Philadelphia marathon website, https://philadelphiamarathon.phila.gov/#/
 route <- readOGR("marathon.geojson")
 plot(route)
-markers1 <- readOGR("newmarkers.geojson")
-plot(markers1)
+markers <- readOGR("newmarkers.geojson")
+plot(markers)
 hoods <- readOGR("Neighborhoods_Philadelphia.geojson")
 plot(hoods)
 ```
@@ -43,34 +43,35 @@ leaflet() %>%
 
 ```
 
-```{r}
+```{r, fig.width=1000, fig.height=10}
 # Plot map 
 
 # Add an if else statement to change colors
-getColor <- function(markers1) {
-  sapply(markers1$marker.symbol, function(marker.symbol) {
+getColor <- function(markers) {
+  sapply(markers$marker.symbol, function(marker.symbol) {
   if(marker.symbol %in% "Start") {
     "green"
   } else if(marker.symbol %in% "Finish") {
     "red"
   } else {
-    "blue"
+    "orange"
   } })
 }
 
 # Add icon
 icons <- awesomeIcons(
   icon = ~as.character(marker.symbol),
-  markerColor = getColor(markers1)
+  markerColor = getColor(markers)
 )
 
 # Create Map
-leaflet(data = route) %>%
-  addProviderTiles("Stamen.TonerLite") %>%
+leaflet() %>%
+# Add Philly 2018 Marathon Route
   addPolylines(data = route, color = "#000000", fillOpacity = 1, weight = 10) %>%
-  addPolygons(data = hoods, label = ~mapname, fillOpacity = 0.00, weight = 1.5, highlightOptions = highlightOptions(color = "white", weight = 2, bringToFront = TRUE)) %>%
-  addTiles() %>%
-  addAwesomeMarkers(data = markers1, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left")) %>%
+# Add Philly Neighborhoods
+  addPolygons(data = hoods, color = "#1ab2ff", label = ~mapname, fillOpacity = 0.00, weight = 3, highlightOptions = highlightOptions(color = "red", bringToFront = TRUE)) %>%
+# Add Philly 2018 Mile Markers
+  addAwesomeMarkers(data = markers, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left")) %>%
 # Basemaps
   addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
   addTiles(options = providerTileOptions(noWrap = TRUE), group = "Default") %>%
@@ -83,11 +84,10 @@ leaflet(data = route) %>%
     options = layersControlOptions(collapsed = FALSE)
   ) 
 
-
 ```
 
-```{r}
-markers1@data
+```{r, fig.width=1000, fig.height=10}
+markers@data
 
 
 
