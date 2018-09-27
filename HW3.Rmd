@@ -68,10 +68,10 @@ icons <- awesomeIcons(
 leaflet(data = route) %>%
   addProviderTiles("Stamen.TonerLite") %>%
   addPolylines(data = route) %>%
-  addPolygons(data = hoods) %>%
+  addPolygons(data = hoods, popup = ~mapname) %>%
   addTiles() %>%
   addAwesomeMarkers(data = markers1, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left")) %>%
- 
+
   # Add layer controls
   addLayersControl(
   baseGroups = c("First", "Life", "Topo", "Terrain"),
@@ -82,7 +82,7 @@ leaflet(data = route) %>%
 ```
 
 ```{r}
-markers@data
+hoods@data
 
 
 
