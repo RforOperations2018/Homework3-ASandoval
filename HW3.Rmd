@@ -18,8 +18,8 @@ require(stringr)
 # Point and line data was traced from the 2018 Philadelphia marathon website, https://philadelphiamarathon.phila.gov/#/
 route <- readOGR("marathon.geojson")
 plot(route)
-markers <- readOGR("newmarkers.geojson")
-plot(markers)
+markers1 <- readOGR("newmarkers.geojson")
+plot(markers1)
 hoods <- readOGR("Neighborhoods_Philadelphia.geojson")
 plot(hoods)
 ```
@@ -45,34 +45,33 @@ leaflet() %>%
 ```{r}
 # Plot map 
 
-# Change the color of the markers
-getColor <- function(markers) {
-  sapply(markers$marker.symbol, function(markers) {
-  if(marker.symbol = "Start") {
+# Add an if else statement to change colors
+getColor <- function(markers1) {
+  sapply(markers1$marker.symbol, function(marker.symbol) {
+  if(marker.symbol %in% "Start") {
     "green"
-  } else if(marker.symbol = "Finish") {
+  } else if(marker.symbol %in% "Finish") {
     "red"
   } else {
     "blue"
   } })
 }
 
+# Add icon
 icons <- awesomeIcons(
   icon = 'ios-close',
-  iconColor = 'black',
-  library = 'ion',
-  markerColor = getColor(markers)
+  markerColor = getColor(markers1)
 )
 
-
-
-
+# Create Map
 leaflet(data = route) %>%
   addProviderTiles("Stamen.TonerLite") %>%
   addPolylines(data = route) %>%
   addPolygons(data = hoods) %>%
-addTiles() %>%
-  addMarkers(data = markers, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left"))
+  addTiles() %>%
+  addAwesomeMarkers(data = markers1, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left"))
+
+
 ```
 
 ```{r}
