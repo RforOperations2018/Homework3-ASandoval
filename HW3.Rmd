@@ -1,0 +1,84 @@
+
+
+```{r}
+require(rgdal)
+require(leaflet)
+require(leaflet.extras)
+
+require(dplyr)
+require(readxl)
+require(stringr)
+
+```
+
+```{r}
+route <- readOGR("marathon.geojson")
+plot(route)
+markers <- readOGR("newmarkers.geojson")
+plot(markers)
+hoods <- readOGR("Neighborhoods_Philadelphia.geojson")
+plot(hoods)
+
+test <- readOGR("test2.geojson")
+plot(test)
+
+```
+
+```{r}
+leaflet() %>%
+  addProviderTiles(providers$Esri.WorldImagery, options = providerTileOptions(noWrap = TRUE)) %>%
+  # Basemaps
+  addTiles(group = "OSM (default)") %>%
+  addProviderTiles("Stamen.Toner", group = "Toner") %>%
+  addProviderTiles("Stamen.TonerLite", group = "Toner Lite") %>%
+ 
+  
+   # Layers control
+  addLayersControl(
+    baseGroups = c("OSM (default)", "Toner", "Toner Lite"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+
+```
+
+```{r}
+
+getColor <- function(markers) {
+  sapply(markers$marker.symbol, function(markers) {
+  if(marker.symbol = "Start") {
+    "green"
+  } else if(marker.symbol = "Finish") {
+    "red"
+  } else {
+    "blue"
+  } })
+}
+
+icons <- awesomeIcons(
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = getColor(markers)
+)
+
+
+
+
+leaflet(data = route) %>%
+  addProviderTiles("Stamen.TonerLite") %>%
+  addPolylines(data = route) %>%
+  addPolygons(data = hoods) %>%
+ 
+
+
+addTiles() %>%
+  addMarkers(data = markers, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left"))
+```
+
+```{r}
+markers@data
+
+
+
+```
+
