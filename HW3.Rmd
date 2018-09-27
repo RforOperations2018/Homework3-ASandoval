@@ -29,10 +29,10 @@ plot(hoods)
 leaflet() %>%
   addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
   # Basemaps
-  addTiles(group = "First") %>%
-  addProviderTiles("Esri.WorldImagery", group = "Life") %>%
-  addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
-  addProviderTiles("Esri.WorldTerrain", group = "Terrain") %>%
+  addTiles(options = providerTileOptions(noWrap = TRUE), group = "First") %>%
+  addProviderTiles("Esri.WorldImagery", options = providerTileOptions(noWrap = TRUE), group = "Life") %>%
+  addProviderTiles("Esri.WorldTopoMap", options = providerTileOptions(noWrap = TRUE), group = "Topo") %>%
+  addProviderTiles("Esri.WorldTerrain", options = providerTileOptions(noWrap = TRUE),group = "Terrain") %>%
  
 
    # Layers control
