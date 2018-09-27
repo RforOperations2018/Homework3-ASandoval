@@ -29,15 +29,15 @@ plot(hoods)
 leaflet() %>%
   addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
   # Basemaps
-  addTiles(options = providerTileOptions(noWrap = TRUE), group = "First") %>%
-  addProviderTiles("Esri.WorldImagery", options = providerTileOptions(noWrap = TRUE), group = "Life") %>%
+  addTiles(options = providerTileOptions(noWrap = TRUE), group = "Default") %>%
+  addProviderTiles("Esri.WorldImagery", options = providerTileOptions(noWrap = TRUE), group = "Imagery") %>%
   addProviderTiles("Esri.WorldTopoMap", options = providerTileOptions(noWrap = TRUE), group = "Topo") %>%
-  addProviderTiles("Esri.WorldTerrain", options = providerTileOptions(noWrap = TRUE),group = "Terrain") %>%
+  addProviderTiles("Esri.WorldTerrain", options = providerTileOptions(noWrap = TRUE), group = "Terrain") %>%
  
 
    # Layers control
   addLayersControl(
-    baseGroups = c("First", "Life", "Topo", "Terrain"),
+    baseGroups = c("Default", "Imagery", "Topo", "Terrain"),
     options = layersControlOptions(collapsed = FALSE)
   )
 
@@ -73,9 +73,17 @@ leaflet(data = route) %>%
   addAwesomeMarkers(data = markers1, icon = icons, label = ~as.character(marker.symbol), labelOptions = labelOptions(noHide = T, direction = "left")) %>%
 
   # Add layer controls
+  addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
+  # Basemaps
+  addTiles(options = providerTileOptions(noWrap = TRUE), group = "Default") %>%
+  addProviderTiles("Esri.WorldImagery", options = providerTileOptions(noWrap = TRUE), group = "Imagery") %>%
+  addProviderTiles("Esri.WorldTopoMap", options = providerTileOptions(noWrap = TRUE), group = "Topo") %>%
+  addProviderTiles("Esri.WorldTerrain", options = providerTileOptions(noWrap = TRUE), group = "Terrain") %>%
+
+   # Layers control
   addLayersControl(
-  baseGroups = c("First", "Life", "Topo", "Terrain"),
-  options = layersControlOptions(collapsed = FALSE)
+    baseGroups = c("Default", "Imagery", "Topo", "Terrain"),
+    options = layersControlOptions(collapsed = FALSE)
   )
 
 
