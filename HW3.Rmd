@@ -48,6 +48,12 @@ icons <- awesomeIcons(
 
 
 ```{r Plot Map}
+# Choose Icon:
+
+
+html_legend <- "<img src='https://png.icons8.com/material-outlined/50/000000/marker.png'>Mile Markers"
+
+
 # Plot map 
 leaflet() %>%
 # Add Philly 2018 Marathon Route
@@ -67,9 +73,8 @@ leaflet() %>%
     options = layersControlOptions(collapsed = FALSE)
   ) %>%
 # Set View
- setView( lat = 39.980379,  lng= -75.165490, zoom = 12.1)
-
-
+ setView( lat = 39.980379,  lng= -75.165490, zoom = 12.1) %>%
+  addControl(html_legend, position = "bottomleft", data = markers)
 
 ```
 
