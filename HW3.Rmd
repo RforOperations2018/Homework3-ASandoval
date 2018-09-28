@@ -1,6 +1,6 @@
 
 
-```{r}
+```{r Upload Packages}
 # Upload packages
 require(rgdal)
 require(leaflet)
@@ -11,7 +11,7 @@ require(stringr)
 
 ```
 
-```{r, fig.width=1000, fig.height=10}
+```{r Upload Data}
 # 2018 Philadelphia Marathon Route
 # Upload polylines, polypoints, and polygons
 # This data was created from http://geojson.io/#map=2/20.0/0.0. 
@@ -23,32 +23,9 @@ plot(markers)
 hoods <- readOGR("Neighborhoods_Philadelphia.geojson")
 plot(hoods)
 
-vpi <- readOGR("Vacant_Block_Percent_Combined.geojson")
-plot(vpi)
-
-
 ```
 
-```{r}
-# Copy code from Template
-leaflet() %>%
-  addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
-  # Basemaps
-  addTiles(options = providerTileOptions(noWrap = TRUE), group = "Default") %>%
-  addProviderTiles("Esri.WorldImagery", options = providerTileOptions(noWrap = TRUE), group = "Imagery") %>%
-  addProviderTiles("Esri.WorldTopoMap", options = providerTileOptions(noWrap = TRUE), group = "Topo") %>%
-  addProviderTiles("Esri.WorldTerrain", options = providerTileOptions(noWrap = TRUE), group = "Terrain") %>%
-   # Layers control
-  addLayersControl(
-    baseGroups = c("Default", "Imagery", "Topo", "Terrain"),
-    options = layersControlOptions(collapsed = FALSE)
-  )
-
-```
-
-```{r, fig.width=1000, fig.height=10}
-# Plot map 
-
+```{r Add Specific color}
 # Add an if else statement to change colors
 getColor <- function(markers) {
   sapply(markers$marker.symbol, function(marker.symbol) {
@@ -66,8 +43,11 @@ icons <- awesomeIcons(
   text = ~as.character(marker.symbol),
   markerColor = getColor(markers)
 )
+```
 
-# Create Map
+
+```{r Plot Map}
+# Plot map 
 leaflet() %>%
 # Add Philly 2018 Marathon Route
   addPolylines(data = route, color = "#000000", fillOpacity = 1, weight = 10) %>%
@@ -79,22 +59,31 @@ leaflet() %>%
   addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
   addTiles(options = providerTileOptions(noWrap = TRUE), group = "Default") %>%
   addProviderTiles("Esri.WorldImagery", options = providerTileOptions(noWrap = TRUE), group = "Imagery") %>%
-  addProviderTiles("Esri.WorldTopoMap", options = providerTileOptions(noWrap = TRUE), group = "Topo") %>%
   addProviderTiles("Esri.WorldTerrain", options = providerTileOptions(noWrap = TRUE), group = "Terrain") %>%
 # Layers control
   addLayersControl(
-    baseGroups = c("Default", "Imagery", "Topo", "Terrain"),
+    baseGroups = c("Default", "Imagery", "Terrain"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>%
+# Set View
  setView( lat = 39.980379,  lng= -75.165490, zoom = 12.1)
+
 
 
 ```
 
 ```{r, fig.width=1000, fig.height=10}
+
+
+if (markers$marker.symbol %in% "Srtart") {
+  "S"
+} else if (markers$marker.symbol %in%  "Finish") {
+  "F"
+} else {
+  ~marker.symbol
+}
+
 markers@data
-
-
 
 ```
 
