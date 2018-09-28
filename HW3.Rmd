@@ -25,7 +25,7 @@ hoods <- readOGR("Neighborhoods_Philadelphia.geojson")
 plot(hoods)
 ```
 
-```{r Add Specific color}
+```{r Colors and Legends}
 # Add an if else statement to change colors of the markers
 getColor <- function(markers) {
   sapply(markers$marker.symbol, function(marker.symbol) {
@@ -38,22 +38,18 @@ getColor <- function(markers) {
   } })
 }
 
-
 # Add icons
 icons <- awesomeIcons(
   text = ~as.character(marker.symbol),
   markerColor = getColor(markers)
 )
+
+# Choose Icon Legend
+html_legend <- "Philadelphia Marathon 2018 Route <br/> <br/> <img src='https://png.icons8.com/material-outlined/50/000000/marker.png'>Mile Markers "
 ```
 
 
 ```{r Plot Map}
-# Choose Icon:
-
-
-html_legend <- "<img src='https://png.icons8.com/material-outlined/50/000000/marker.png'>Mile Markers"
-
-
 # Plot map 
 leaflet() %>%
 # Add Philly 2018 Marathon Route
@@ -61,7 +57,7 @@ leaflet() %>%
 # Add Philly Neighborhoods
   addPolygons(data = hoods, color = "#1ab2ff", label = ~mapname, fillOpacity = 0.00, weight = 3, highlightOptions = highlightOptions(color = "red", bringToFront = TRUE)) %>%
 # Add Philly 2018 Mile Markers
-  addAwesomeMarkers(data = markers, icon = icons, options = "circles", label = ~as.character(marker.symbol)) %>%
+  addAwesomeMarkers(data = markers, icon = icons, label = ~as.character(marker.symbol)) %>%
 # Add Basemaps
   addProviderTiles(providers$OpenMapSurfer.Grayscale, options = providerTileOptions(noWrap = TRUE)) %>%
   addTiles(options = providerTileOptions(noWrap = TRUE), group = "Default") %>%
@@ -73,8 +69,9 @@ leaflet() %>%
     options = layersControlOptions(collapsed = FALSE)
   ) %>%
 # Set View
- setView( lat = 39.980379,  lng= -75.165490, zoom = 12.1) %>%
-  addControl(html_legend, position = "bottomleft", data = markers)
+  setView( lat = 39.980379,  lng= -75.165490, zoom = 12.1) %>%
+# Add Legend
+  addControl(html_legend, position = "bottomleft") 
 
 ```
 
