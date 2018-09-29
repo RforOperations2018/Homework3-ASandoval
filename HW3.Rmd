@@ -45,6 +45,7 @@ icons <- awesomeIcons(
 )
 
 # Choose Icon Legend
+# I would have been okay if you had taken a screen shot of one and put the image here, since this marker isn't technically the same as the ones in your map
 html_legend <- "Philadelphia Marathon 2018 Route <br/> <br/> <img src='https://png.icons8.com/material-outlined/50/000000/marker.png'>Mile Markers "
 ```
 
